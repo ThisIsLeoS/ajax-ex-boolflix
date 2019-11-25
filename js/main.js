@@ -16,7 +16,7 @@ $("main input").keyup(function(key) {
  */
 
 $("main button").click(function() {
-    var searchedMovie = $("main .movies-info .searched-movie");
+    var searchedMovie = $("main .movies-info input");
     printMoviesInfo(searchedMovie);
 });
 
@@ -34,7 +34,7 @@ function printMoviesInfo(searchedMovie) {
             "include_adult": false
         },
         "success": function(data) {
-            var moviesInfoUl = $("ul");
+            var moviesInfoUl = $("<ul>");
             $("main .movies-info").append(moviesInfoUl);
 
             /* if no movies corresponding to the entered string are found, data.results will
@@ -52,6 +52,7 @@ function printMoviesInfo(searchedMovie) {
 
                 moviesInfoUl.append(templateHTML);
             }
+            $("main .movies-info").append(moviesInfoUl);
         },
         "error": function (iqXHR, textStatus, errorThrown) {
             alert(
