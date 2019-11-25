@@ -7,8 +7,11 @@
 $("main input").keyup(function(key) {
     var searchedMovie = $(this).val();
 
-    // if "Enter" has been pressed
-    if (key.key === "Enter") printMoviesInfo(searchedMovie);
+    /* if "Enter" has been pressed and the entered string isn't an empty string (printMoviesInfo
+    throws an error if an empty string is passed) */
+    if (key.key === "Enter" && searchedMovie.length > 0) {
+        printMoviesInfo(searchedMovie);
+    }
 });
 
 /*
@@ -17,11 +20,14 @@ $("main input").keyup(function(key) {
 
 $("main button").click(function() {
     var searchedMovie = $("main input").val();
-    printMoviesInfo(searchedMovie);
+
+    /* if the entered string isn't an empty string (printMoviesInfo throws an error if an empty
+    string is passed) */
+    if (searchedMovie.length > 0) printMoviesInfo(searchedMovie);
 });
 
 /**
- * TODO
+ * TODO (throws error if empty string is passed TODO)
  * @param {String} searchedMovie
  */
 function printMoviesInfo(searchedMovie) {
