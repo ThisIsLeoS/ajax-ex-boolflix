@@ -1,0 +1,90 @@
+/* reset rules */
+    h2, p, ol, ul {
+
+        /* to overwrite bootstrap's CSS */
+        margin-bottom: 0;
+    }
+
+    ol, ul {
+
+        /* to overwrite bootstrap's CSS */
+        padding-left: 0;
+    }
+
+    li {
+        list-style: none;
+    }
+/* /reset rules */
+
+/* rules used or usable in different parts of the page */
+    a {
+        transition: color .15s linear;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    a svg {
+        transition: background-color .15s linear;
+    }
+
+    a svg path {
+        transition: fill .15s linear;
+    }
+/* /rules used or usable in different parts of the page */
+
+/* rules used in specific parts of the page */
+    html {
+
+        /* to make a reference for the percentage heights of thix box's children */
+        height: 100%;
+
+        font-size: 14px;
+    }
+    
+    body {
+
+        /* to make a reference for the percentage heights of thix box's children */
+        height: 100%;
+
+        font-family: sans-serif;
+    }
+/* /rules used in specific parts of the page */
+
+/* rules for specific width ranges */
+    @media screen and (max-width: 575.98px) {
+
+        /* rules used in specific parts of the page */
+        /* /rules used in specific parts of the page */
+
+    }
+
+    @media screen and (max-width: 767.98px) {
+
+        /* rules used in specific parts of the page */
+        /* /rules used in specific parts of the page */
+
+    }
+
+    @media screen and (max-width: 991.98px) {
+
+        /* rules used in specific parts of the page */
+        /* /rules used in specific parts of the page */
+
+    }
+
+    @media screen and (max-width: 1199.98px) {
+
+        /* rules used in specific parts of the page */
+        /* /rules used in specific parts of the page */
+
+    }
+
+    @media screen and (min-width: 1200px) {
+
+        /* rules used in specific parts of the page */
+        /* /rules used in specific parts of the page */
+
+    }
+/* /rules for specific width ranges */
