@@ -7,8 +7,8 @@
 $("main input").keyup(function(key) {
     var searchedMovie = $(this).val();
 
-    // if the newline character has been entered
-    if (key.keyCode === 13) printMoviesInfo(searchedMovie);
+    // if "Enter" has been pressed
+    if (key.key === "Enter") printMoviesInfo(searchedMovie);
 });
 
 /*
@@ -16,14 +16,14 @@ $("main input").keyup(function(key) {
  */
 
 $("main button").click(function() {
-    var searchedMovie = $("main .movies-info input");
+    var searchedMovie = $("main input").val();
     printMoviesInfo(searchedMovie);
 });
 
-/* funzione per richiesta HTTP al server:
-in input prende la stringa inserita dall'utente
-fa una chiamata ad AJAX
-- nel metodo success stampi i risultati */
+/**
+ * TODO
+ * @param {String} searchedMovie
+ */
 function printMoviesInfo(searchedMovie) {
     $.ajax({
         "url": "https://api.themoviedb.org/3/search/movie",
@@ -34,11 +34,18 @@ function printMoviesInfo(searchedMovie) {
             "include_adult": false
         },
         "success": function(data) {
+
+            // the previously displayed movies information are removed
+            $("main .movies-info").empty();
+
+            // a <ul> is appended to the movies info element
             var moviesInfoUl = $("<ul>");
             $("main .movies-info").append(moviesInfoUl);
 
-            /* if no movies corresponding to the entered string are found, data.results will
-            contain an empty array and this loop won't loop */
+            /* for each movie in the data.results array a movie info element is created and
+            appended.
+            Note: if the data.results array is empty (that is, there are no movies corresponding to
+            the entered string), this loop won't loop */
             for (var i = 0; i < data.results.length; ++i) {
 
                 // the movie info element is created from the movie info template
@@ -52,7 +59,6 @@ function printMoviesInfo(searchedMovie) {
 
                 moviesInfoUl.append(templateHTML);
             }
-            $("main .movies-info").append(moviesInfoUl);
         },
         "error": function (iqXHR, textStatus, errorThrown) {
             alert(

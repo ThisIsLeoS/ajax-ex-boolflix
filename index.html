@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="" dir="ltr">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title></title>
+  <title>Boolfix</title>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,7 +30,7 @@
 
   <!-- main -->
   <main>
-    <input type="text">
+    <input type="text" autocomplete="off">
     <button>search</button>
     <div class="movies-info">
     </div>
@@ -44,7 +44,7 @@
   <!-- /footer -->
 
   <!-- templates -->
-  <script id="movie-info-template" type="text/x-handlebars-template">
+  <script id="movie-info-template" type="text/template">
     <li>
       <div class="title">Title: {{title}}</div>
       <div class="original-title">Original title: {{originalTitle}}</div>
