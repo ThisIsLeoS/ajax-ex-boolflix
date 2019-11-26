@@ -32,8 +32,8 @@
   <main>
     <input type="text" class="searched-movie-input">
     <button>search</button>
-    <div class="movies-info">
-    </div>
+    <ul class="movies-info">
+    </ul>
   </main>
   <!-- /main -->
 
@@ -44,16 +44,27 @@
   <!-- /footer -->
 
   <!-- templates -->
-  <script id="movie-info-template" type="text/template">
+  <template id="movie-info-template">
     <li>
       <ul>
         <li class="title">Title: {{title}}</li>
         <li class="original-title">Original title: {{originalTitle}}</li>
         <li class="original-lang">Original language: {{originalLang}}</li>
-        <li class="vote-average">Average vote: {{voteAverage}}</li>
+        <li class="vote-average">
+          Average vote:
+          <ul class="stars">
+            {{voteStars}}
+          </ul>
+        </li>
       </ul>
     </li>
-  </script>
+  </template>
+
+  <template id="movie-star-vote">
+    <li>
+      <img src="img\star-icon.svg">
+    </li>
+  </template>
   <!-- /templates -->
 
   <!-- bootstrap JS -->

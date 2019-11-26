@@ -47,11 +47,8 @@ function printMoviesInfo(searchedMovie) {
             // the previously displayed movies information are removed
             $("main .movies-info").empty();
 
-            // a <ul> is appended to the movies info element
-            var moviesInfoUl = $("<ul>");
-            $("main .movies-info").append(moviesInfoUl);
-
             var templateCompiled = Handlebars.compile($("body > #movie-info-template").html());
+            var moviesInfoEl = $("main .movies-info");
 
             /* for each movie in the data.results array a movie info element is created and
             appended.
@@ -65,10 +62,10 @@ function printMoviesInfo(searchedMovie) {
                     "originalTitle": data.results[i].original_title,
                     "originalLang": data.results[i].original_language,
                     // TODO: controllare che la funz restituisca un numero
-                    "voteAverage": toIntBetween1And5(data.results[i].vote_average)
+                    "voteStars": toStarsBetween1And5(data.results[i].vote_average)
                 });
 
-                moviesInfoUl.append(templateHTML);
+                moviesInfoEl.append(templateHTML);
             }
         },
         "error": function (iqXHR, textStatus, errorThrown) {
@@ -81,8 +78,17 @@ function printMoviesInfo(searchedMovie) {
     });
 }
 
-/* funzione per cambiare un numero decimale da 1 a 10 in un numero intero da 1 a 5 
+/* funzione per cambiare un numero decimale da 1 a 10 in un numero intero da 1 a 5
 Note: Math.ceil(null) returns integer 0 and does not give a NaN error. TODO */
-function toIntBetween1And5(num) {
-    return Math.ceil(num / 2);
+function toStarsBetween1And5(num) {
+    var starsNum = Math.ceil(num / 2);
+
+    var starTemplateCompiled = Handlebars.compile($("body > #movie-star-vote").html());
+    var starTemplateHTML = starTemplateCompiled({});
+
+    for (var i = 0; i < starsNum.length; ++i) {
+        starTemplateHTML += starTemplateHTML;
+    }
+
+    return starTemplateHTML;
 }
