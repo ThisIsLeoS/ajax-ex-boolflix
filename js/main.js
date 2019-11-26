@@ -1,4 +1,9 @@
+/* eslint-disable no-else-return */
 // @ts-check
+
+// compilation of Handlebars' templates
+var movieInfoTemplateCompiled = Handlebars.compile($("body > #movie-info").html());
+var movieLangTemplateCompiled = Handlebars.compile($("body > #movie-lang-flag").html());
 
 /*
  * Input TODO
@@ -47,7 +52,6 @@ function printMoviesInfo(searchedMovie) {
             // the previously displayed movies information are removed
             $("main .movies-info").empty();
 
-            var templateCompiled = Handlebars.compile($("body > #movie-info-template").html());
             var moviesInfoEl = $("main .movies-info");
 
             /* for each movie in the data.results array a movie info element is created and
@@ -56,13 +60,15 @@ function printMoviesInfo(searchedMovie) {
             the entered string), this loop won't loop */
             for (var i = 0; i < data.results.length; ++i) {
 
-                // the movie info element is created from the movie info template
-                var templateHTML = templateCompiled({
+                // the movie info element is created
+                var templateHTML = movieInfoTemplateCompiled({
                     "title": data.results[i].title,
                     "originalTitle": data.results[i].original_title,
-                    "originalLang": data.results[i].original_language,
-                    // TODO: controllare che la funz restituisca un numero
-                    "voteStars": toStarsBetween1And5(data.results[i].vote_average)
+                    "originalLang": toFlag(data.results[i].original_language),
+
+                    /* an integer number between 1 and 5 is passed to the toStars method
+                    (vote_average is a decimal number between 1 and 10) */
+                    "averageVote": toStars(Math.ceil(data.results[i].vote_average / 2))
                 });
 
                 moviesInfoEl.append(templateHTML);
@@ -78,17 +84,57 @@ function printMoviesInfo(searchedMovie) {
     });
 }
 
-/* funzione per cambiare un numero decimale da 1 a 10 in un numero intero da 1 a 5
-Note: Math.ceil(null) returns integer 0 and does not give a NaN error. TODO */
-function toStarsBetween1And5(num) {
-    var starsNum = Math.ceil(num / 2);
 
-    var starTemplateCompiled = Handlebars.compile($("body > #movie-star-vote").html());
-    var starTemplateHTML = starTemplateCompiled({});
+// var file = new File();
 
-    for (var i = 0; i < starsNum.length; ++i) {
-        starTemplateHTML += starTemplateHTML;
+/**
+ * If the flag icon corresponding to the language passed as input exists, returns a string
+ * containing the lang flag template with the URL of the flag icon. If the flag icon doesn't exist,
+ * returns the same string passed as input
+ * @param {String} lang - the language whose corresponding flag icon, if it exists, will be used to
+ *     create the returned template
+ * @returns if the flag icon corresponding to the language passed as input exists, returns a string
+ *     containing the lang flag template with the URL of the flag icon. If the flag icon doesn't
+ *     exist, returns the same string passed as input
+ */
+function toFlag(lang) {
+    if (lang === "cn" || lang === "en" || lang === "fr" || lang === "it" || lang === "jp") {
+        var templateHTML = movieLangTemplateCompiled({
+            "lang": lang
+        });
+        return templateHTML;
     }
+    else {
+        return lang;
+    }
+    /* var flagIconFile = file("..\img\\" + lang + "-flag-icon.svg");
 
-    return starTemplateHTML;
+    if (!flagIconFile.exists) {
+    alert(myfile + " could not be found!");
+    }
+    else console.log("found!"); */
+    /* prendi la lingua
+    verifica che il file della bandiera della lingua ci sia o fai un if per verificare se c'è l'immagine per la lingua
+    fai una copia del template
+    aggiungi la lingua ad entrambi i placeholder lang del template
+    restituisci il template
+    */
+}
+
+/**
+ * Returns a string containing the star template repeated a number of times euqal to the number
+ * passed as input
+ * @param {Number} numOfStars - the number of times the star template will be in the returned string
+ * @returns a string containing the star template repeated a number of times euqal to the number
+ * passed as input
+ */
+
+// TODO mettere stars vuote (average vote 0 = 5 stars vuote)
+function toStars(numOfStars) {
+    var starTemplateHTML = document.getElementById("movie-star-vote").innerHTML;
+    var starTemplatesHTML = "";
+    for (var i = 0; i < numOfStars; ++i) {
+        starTemplatesHTML += starTemplateHTML;
+    }
+    return starTemplatesHTML;
 }
