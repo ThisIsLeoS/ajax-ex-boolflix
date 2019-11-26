@@ -4,7 +4,7 @@
  * Input TODO
  */
 
-$("main input").keyup(function(key) {
+$("main .searched-movie-input").keyup(function(key) {
     var searchedMovie = $(this).val();
 
     /* if "Enter" has been pressed and the entered string isn't an empty string (printMoviesInfo
@@ -19,7 +19,7 @@ $("main input").keyup(function(key) {
  */
 
 $("main button").click(function() {
-    var searchedMovie = $("main input").val();
+    var searchedMovie = $("main .searched-movie-input").val();
 
     /* if the entered string isn't an empty string (printMoviesInfo throws an error if an empty
     string is passed) */
@@ -41,12 +41,17 @@ function printMoviesInfo(searchedMovie) {
         },
         "success": function(data) {
 
+            // the input field is emptied
+            $("main .searched-movie-input").val("");
+
             // the previously displayed movies information are removed
             $("main .movies-info").empty();
 
             // a <ul> is appended to the movies info element
             var moviesInfoUl = $("<ul>");
             $("main .movies-info").append(moviesInfoUl);
+
+            var templateCompiled = Handlebars.compile($("body > #movie-info-template").html());
 
             /* for each movie in the data.results array a movie info element is created and
             appended.
@@ -55,12 +60,12 @@ function printMoviesInfo(searchedMovie) {
             for (var i = 0; i < data.results.length; ++i) {
 
                 // the movie info element is created from the movie info template
-                var templateCompiled = Handlebars.compile($("body > #movie-info-template").html());
                 var templateHTML = templateCompiled({
                     "title": data.results[i].title,
                     "originalTitle": data.results[i].original_title,
                     "originalLang": data.results[i].original_language,
-                    "voteAverage": data.results[i].vote_average
+                    // TODO: controllare che la funz restituisca un numero
+                    "voteAverage": toIntBetween1And5(data.results[i].vote_average)
                 });
 
                 moviesInfoUl.append(templateHTML);
@@ -74,4 +79,10 @@ function printMoviesInfo(searchedMovie) {
             );
         }
     });
+}
+
+/* funzione per cambiare un numero decimale da 1 a 10 in un numero intero da 1 a 5 
+Note: Math.ceil(null) returns integer 0 and does not give a NaN error. TODO */
+function toIntBetween1And5(num) {
+    return Math.ceil(num / 2);
 }

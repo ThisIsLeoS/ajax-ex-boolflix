@@ -30,7 +30,7 @@
 
   <!-- main -->
   <main>
-    <input type="text" autocomplete="off">
+    <input type="text" class="searched-movie-input">
     <button>search</button>
     <div class="movies-info">
     </div>
@@ -46,10 +46,12 @@
   <!-- templates -->
   <script id="movie-info-template" type="text/template">
     <li>
-      <div class="title">Title: {{title}}</div>
-      <div class="original-title">Original title: {{originalTitle}}</div>
-      <div class="original-lang">Original language: {{originalLang}}</div>
-      <div class="vote-average">Average vote: {{voteAverage}}</div>
+      <ul>
+        <li class="title">Title: {{title}}</li>
+        <li class="original-title">Original title: {{originalTitle}}</li>
+        <li class="original-lang">Original language: {{originalLang}}</li>
+        <li class="vote-average">Average vote: {{voteAverage}}</li>
+      </ul>
     </li>
   </script>
   <!-- /templates -->
