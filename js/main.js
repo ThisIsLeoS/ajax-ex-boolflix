@@ -1,6 +1,7 @@
+// @ts-check
+
 /* eslint-disable no-alert */
 /* eslint-disable no-else-return */
-// @ts-check
 
 // compilation of Handlebars' templates
 // @ts-ignore
@@ -9,30 +10,18 @@ var movieInfoTemplateCompiled = Handlebars.compile($("body > #movie-info").html(
 var showInfoTemplateCompiled = Handlebars.compile($("body > #show-info").html());
 // @ts-ignore
 var flagTemplateCompiled = Handlebars.compile($("body > #lang-flag").html());
+var starTemplateCompiled = Handlebars.compile($("body > #star-vote").html());
 
 /*
  * Input TODO
  */
 
 $("main .movie-or-show-input").keyup(function(key) {
-    var input = $(this).val();
 
-    /* if "Enter" has been pressed and the entered string isn't empty (printMoviesInfo and
-    printShowInfo throw an error if an empty string is passed) */
-    // @ts-ignore
-    if (key.key === "Enter" && input.length > 0) {
-
-        /* FARE FUNZ PER NON RIPETERE STA ROBA */
-        // the input field is emptied
-        $("main .movie-or-show-input").val("");
-
-        // the previously displayed movies and shows information are removed
-        $("main .movies-info").empty();
-        $("main .shows-info").empty();
-
-        // @ts-ignore
-        printMoviesInfo(input);
-        printShowsInfo(input);
+    // if "Enter" has been pressed
+    if (key.key === "Enter") {
+        var searchedStr = $(this).val();
+        printMoviesAndShows(searchedStr);
     }
 });
 
@@ -41,12 +30,20 @@ $("main .movie-or-show-input").keyup(function(key) {
  */
 
 $("main button").click(function() {
-    var input = $("main .searched-movie-or-show").val();
+    var searchedStr = $("main .searched-movie-or-show").val();
+    printMoviesAndShows(searchedStr);
+});
 
-    /* if the entered string isn't empty (printMoviesInfo and printShowInfo throw an error if an
-    empty string is passed) */
-    // @ts-ignore
-    if (input.length > 0) {
+/**
+ * TODO
+ * @param {*} searchedStr
+ */
+function printMoviesAndShows(searchedStr) {
+
+    /* if the searched string isn't empty (note: printMoviesInfo and printShowInfo throw an error
+    if an empty string is passed) */
+    if (searchedStr.length > 0) {
+
         // the input field is emptied
         $("main .movie-or-show-input").val("");
 
@@ -54,11 +51,11 @@ $("main button").click(function() {
         $("main .movies-info").empty();
         $("main .shows-info").empty();
 
-        // @ts-ignore
-        printMoviesInfo(input);
-        printShowsInfo(input);
+        printMoviesInfo(searchedStr);
+        printShowsInfo(searchedStr);
     }
-});
+    // else, nothing is printed
+}
 
 /**
  * TODO (throws error if empty string is passed TODO)
@@ -88,8 +85,10 @@ function printMoviesInfo(searchedMovie) {
                     "original_title": data.results[i].original_title,
                     "original_language": getFlag(data.results[i].original_language),
                     "poster_path": data.results[i].poster_path,
-                    /* an integer number between 1 and 5 is passed to the getStars method
-                    (vote_average is a decimal number between 1 and 10) */
+
+                    /* vote_average is a decimal number between 1 and 10 thus
+                    Math.ceil(data.results[i].vote_average / 2) is an integer number between 1 and
+                    5 */
                     "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2))
                 });
 
@@ -161,9 +160,9 @@ function printShowsInfo(searchedShow) {
  * returns the same string passed as input
  * @param {String} lang - the language whose corresponding flag icon, if it exists, will be used to
  *     create the returned template
- * @returns if the flag icon corresponding to the language passed as input exists, returns a string
+ * @returns {String} if the flag icon corresponding to the language passed as input exists, a string
  *     containing the lang flag template with the URL of the flag icon. If the flag icon doesn't
- *     exist, returns the same string passed as input
+ *     exist, the same string passed as input
  */
 function getFlag(lang) {
     if (lang === "cn" || lang === "en" || lang === "fr" || lang === "it" || lang === "ja") {
@@ -190,19 +189,36 @@ function getFlag(lang) {
 }
 
 /**
- * Returns a string containing the star template repeated a number of times euqal to the number
- * passed as input
- * @param {Number} numOfStars - the number of times the star template will be in the returned string
- * @returns a string containing the star template repeated a number of times euqal to the number
- * passed as input
+ * Returns a string containing five star templates. The first numOfStars of these will have a color
+ * the remaining ones won't
+ * @param {Number} numOfStars - The number of coloured star templates that will be in the returned
+ *     string
+ * @returns {String} A string containing five star templates. The first numOfStars of these will
+ *     have a color, the remaining ones won't
  */
-
-// TODO mettere stars vuote (average vote 0 = 5 stars vuote)
 function getStars(numOfStars) {
-    var starTemplateHTML = document.getElementById("star-vote").innerHTML;
+
+    // star template with an uncolored star
+    var emptyStarHTML = starTemplateCompiled({
+        "fill": "fill=\"transparent\""
+    });
+
+    // star template with a colored star
+    var filledStarHTML = starTemplateCompiled({
+        "fill": "fill=\"#F8D64E\""
+    });
+
     var starTemplatesHTML = "";
+
+    // first numOfStars stars have a color
     for (var i = 0; i < numOfStars; ++i) {
-        starTemplatesHTML += starTemplateHTML;
+        starTemplatesHTML += filledStarHTML;
     }
+
+    // remaining stars don't have a color
+    for (var i = 0; i < 5 - numOfStars; ++i) {
+        starTemplatesHTML += emptyStarHTML;
+    }
+
     return starTemplatesHTML;
 }
