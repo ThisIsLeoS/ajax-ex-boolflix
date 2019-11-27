@@ -30,9 +30,11 @@
 
   <!-- main -->
   <main>
-    <input type="text" class="searched-movie-input">
+    <input type="text" class="movie-or-show-input">
     <button>search</button>
     <ul class="movies-info">
+    </ul>
+    <ul class="shows-info">
     </ul>
   </main>
   <!-- /main -->
@@ -48,23 +50,45 @@
     <li>
       <ul>
         <li class="title">Title: {{title}}</li>
-        <li class="original-title">Original title: {{originalTitle}}</li>
-        <li class="original-lang">Original language: {{{originalLang}}}</li>
+        <li class="original-title">Original title: {{original_title}}</li>
+        <li class="original-lang">Original language: {{{original_language}}}</li>
+        <li class="poster">
+          <img src="https://image.tmdb.org/t/p/w92{{poster_path}}" alt="&quot;{{name}}&quot;" poster">
+        </li>
         <li class="vote-average">
           Average vote:
           <ul class="stars">
-            {{{averageVote}}}
+            {{{vote_average}}}
           </ul>
         </li>
       </ul>
     </li>
   </template>
 
-  <template id="movie-lang-flag">
+  <template id="show-info">
+    <li>
+      <ul>
+        <li class="name">Name: {{name}}</li>
+        <li class="original-name">Original name: {{original_name}}</li>
+        <li class="original-lang">Original language: {{{original_language}}}</li>
+        <li class="poster">
+          <img src="https://image.tmdb.org/t/p/w92{{poster_path}}" alt="&quot;{{name}}&quot;" poster">
+        </li>
+        <li class="vote-average">
+          Average vote:
+          <ul class="stars">
+            {{{vote_average}}}
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </template>
+
+  <template id="lang-flag">
     <img src="img\\{{lang}}-flag-icon.svg" alt="{{lang}}">
   </template>
 
-  <template id="movie-star-vote">
+  <template id="star-vote">
     <li>
       <img src="img\star-icon.svg">
     </li>
