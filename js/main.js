@@ -171,9 +171,7 @@ function getFlag(lang) {
         });
         return templateHTML;
     }
-    else {
-        return lang;
-    }
+    return lang;
     /* var flagIconFile = file("..\img\\" + lang + "-flag-icon.svg");
 
     if (!flagIconFile.exists) {
