@@ -4,8 +4,10 @@ var flagTemplateCompiled = Handlebars.compile($("body > #lang-flag").html());
 var starTemplateCompiled = Handlebars.compile($("body > #star-vote").html());
 
 /*
- * Field to search movies and shows
+ * Events
  */
+
+// field to search movies and shows
 $("main .movie-or-show-input").keyup(function(key) {
 
     // if "Enter" has been pressed
@@ -15,13 +17,15 @@ $("main .movie-or-show-input").keyup(function(key) {
     }
 });
 
-/*
- * Search button to the right of the field to search movies and shows
- */
+// search button to the right of the field to search movies and shows
 $("main button").click(function() {
     var query = $("main .movie-or-show-input").val();
     printMoviesAndShows(query);
 });
+
+/*
+ * Functions
+ */
 
 /**
  * Empties the field used to search movies and shows and removes the previously displayed movies
