@@ -84,7 +84,11 @@ function printMoviesInfo(searchedMovie) {
                     "title": data.results[i].title,
                     "original_title": data.results[i].original_title,
                     "original_language": getFlag(data.results[i].original_language),
-                    "poster_path": data.results[i].poster_path,
+                    
+                    // note: data-results[i].poster_path could be null
+                    "poster_path": data.results[i].poster_path ?   
+                        "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
+                        : "img/no-poster-available.jpg",
 
                     /* vote_average is a decimal number between 1 and 10 thus
                     Math.ceil(data.results[i].vote_average / 2) is an integer number between 1 and
@@ -132,7 +136,11 @@ function printShowsInfo(searchedShow) {
                     "name": data.results[i].name,
                     "original_name": data.results[i].original_name,
                     "original_language": getFlag(data.results[i].original_language),
-                    "poster_path": data.results[i].poster_path,
+
+                    // note: data-results[i].poster_path could be null
+                    "poster_path": data.results[i].poster_path ?
+                        "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
+                        : "img/no-poster-available.jpg",
 
                     /* an integer number between 1 and 5 is passed to the getStars method
                     (vote_average is a decimal number between 1 and 10) */
