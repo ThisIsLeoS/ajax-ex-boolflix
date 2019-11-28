@@ -5,159 +5,111 @@
 
 // compilation of Handlebars' templates
 // @ts-ignore
-var movieInfoTemplateCompiled = Handlebars.compile($("body > #movie-info").html());
-// @ts-ignore
-var showInfoTemplateCompiled = Handlebars.compile($("body > #show-info").html());
+var infoTemplateCompiled = Handlebars.compile($("body > #info").html());
 // @ts-ignore
 var flagTemplateCompiled = Handlebars.compile($("body > #lang-flag").html());
+// @ts-ignore
 var starTemplateCompiled = Handlebars.compile($("body > #star-vote").html());
 
 /*
- * Input TODO
+ * Field to search movies and shows
  */
-
 $("main .movie-or-show-input").keyup(function(key) {
-
+    
     // if "Enter" has been pressed
-    if (key.key === "Enter") {
-        var searchedStr = $(this).val();
-        printMoviesAndShows(searchedStr);
+    if (key.key === "Enter") { 
+        var query = $(this).val();
+        printMoviesAndShows(query);
     }
 });
 
 /*
- * Button TODO
+ * Search button to the right of the field to search movies and shows
  */
-
 $("main button").click(function() {
-    var searchedStr = $("main .searched-movie-or-show").val();
-    printMoviesAndShows(searchedStr);
+    var query = $("main .movie-or-show-input").val();
+    printMoviesAndShows(query);
 });
 
 /**
- * TODO
- * @param {*} searchedStr
+ * Empties the field used to search movies and shows and removes the previously displayed movies
+ * and shows.
+ * Prints all the info of the movies and the shows that have the query in the title
+ * @param {String} query - The searched movie or show
  */
-function printMoviesAndShows(searchedStr) {
-
-    /* if the searched string isn't empty (note: printMoviesInfo and printShowInfo throw an error
-    if an empty string is passed) */
-    if (searchedStr.length > 0) {
-
-        // the input field is emptied
-        $("main .movie-or-show-input").val("");
-
-        // the previously displayed movies and shows information are removed
-        $("main .movies-info").empty();
-        $("main .shows-info").empty();
-
-        printMoviesInfo(searchedStr);
-        printShowsInfo(searchedStr);
-    }
-    // else, nothing is printed
+function printMoviesAndShows(query) {
+    reset();
+    printInfo("https://api.themoviedb.org/3/search/movie", query, "movie");
+    printInfo("https://api.themoviedb.org/3/search/tv", query, "tv");
 }
 
 /**
- * TODO (throws error if empty string is passed TODO)
- * @param {String} searchedMovie
+ * If the parameter movieOrTv contains "movie", prints the info of the movies that have the query
+ * in the title. If the parameter moviesOrTv contains "tv" does the same thing but for the shows.
+ * @param {String} query - The searched movie or show
+ * @param {String} movieOrTv - A string containing "movie" or "tv"
  */
-function printMoviesInfo(searchedMovie) {
-    $.ajax({
-        "url": "https://api.themoviedb.org/3/search/movie",
-        "method": "GET",
-        "data": {
-            "api_key": "2712588bad2a9f3c1777737cb66448d5",
-            "query": searchedMovie,
-            "include_adult": false,
-        },
-        "success": function(data) {
-            var moviesInfoEl = $("main .movies-info");
+function printInfo(query, movieOrTv) {
 
-            /* for each movie in the data.results array a movie info element is created and
-            appended.
-            Note: if the data.results array is empty (that is, there are no movies corresponding to
-            the passed string), this loop won't loop */
-            for (var i = 0; i < data.results.length; ++i) {
+    /* if the query isn't empty (needed check because the server returns an error message if an
+    empty query is passed) (note: if the query is empty this function does nothing) */
+    if (query.length > 0) {
+        $.ajax({
+            "url": "https://api.themoviedb.org/3/search/" + movieOrTv,
+            "method": "GET",
+            "data": getData(query, movieOrTv),
+            "success": function(data) {
+                var elToAppendTo = (movieOrTv === "movie") ? 
+                    $("main .movies")
+                    : $("main .shows");
 
-                // the movie info element is created
-                var templateHTML = movieInfoTemplateCompiled({
-                    "title": data.results[i].title,
-                    "original_title": data.results[i].original_title,
-                    "original_language": getFlag(data.results[i].original_language),
+                /* for each movie (or show) in the data.results array a movie or show info element
+                is created and appended.
+                Note: if the data.results array is empty (that is, there are no movies or shows corresponding to the passed query), this loop won't loop */
+                for (var i = 0; i < data.results.length; ++i) {
                     
-                    // note: data-results[i].poster_path could be null
-                    "poster_path": data.results[i].poster_path ?   
-                        "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
-                        : "img/no-poster-available.jpg",
+                    // the movie or show info element is created
+                    var templateHTML = infoTemplateCompiled({
 
-                    /* vote_average is a decimal number between 1 and 10 thus
-                    Math.ceil(data.results[i].vote_average / 2) is an integer number between 1 and
-                    5 */
-                    "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2))
-                });
+                        /* 
+                        * value names that differs between the movies and the shows returned by the
+                        * server
+                        */
+                        "title": movieOrTv === "movie" ? 
+                            data.results[i].title 
+                            : data.results[i].name,
+                        "original_title": movieOrTv === "movie" ?
+                            data.results[i].original_title
+                            : data.results[i].original_name,
 
-                moviesInfoEl.append(templateHTML);
+                        /*
+                        * value names common to both the movies and the shows returned by the server
+                        */
+                        "original_language": getFlag(data.results[i].original_language),
+
+                        // needed check because data-results[i].poster_path could be null
+                        "poster_path": data.results[i].poster_path ?
+                            "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
+                            : "img/no-poster-available.jpg",
+
+                        /* vote_average is a decimal number between 1 and 10 thus
+                        Math.ceil(data.results[i].vote_average / 2) is an integer number between 1 and 5 */
+                        "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2))
+                    });
+
+                    // the movie or show info element is appended
+                    elToAppendTo.append(templateHTML);
+                }
+            },
+            "error": function (iqXHR, textStatus, errorThrown) {
+                alert(
+                    "iqXHR.status: " + iqXHR.status + "\n" +
+                    "textStatus: " + textStatus + "\n" +
+                    "errorThrown: " + errorThrown
+                );
             }
-        },
-        "error": function (iqXHR, textStatus, errorThrown) {
-            alert(
-                "iqXHR.status: " + iqXHR.status + "\n" +
-                "textStatus: " + textStatus + "\n" +
-                "errorThrown: " + errorThrown
-            );
-        }
-    });
-}
-
-/**
- * TODO (throws error if empty string is passed TODO)
- * @param {String} searchedMovie
- */
-function printShowsInfo(searchedShow) {
-    $.ajax({
-        "url": "https://api.themoviedb.org/3/search/tv",
-        "method": "GET",
-        "data": {
-            "api_key": "2712588bad2a9f3c1777737cb66448d5",
-            "query": searchedShow,
-        },
-        "success": function (data) {
-
-            var showsInfoEl = $("main .shows-info");
-
-            /* for each show in the data.results array a show info element is created and
-            appended.
-            Note: if the data.results array is empty (that is, there are no shows corresponding to
-            the passed string), this loop won't loop */
-            for (var i = 0; i < data.results.length; ++i) {
-
-                // the show info element is created
-                var templateHTML = showInfoTemplateCompiled({
-                    "name": data.results[i].name,
-                    "original_name": data.results[i].original_name,
-                    "original_language": getFlag(data.results[i].original_language),
-
-                    // note: data-results[i].poster_path could be null
-                    "poster_path": data.results[i].poster_path ?
-                        "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
-                        : "img/no-poster-available.jpg",
-
-                    /* an integer number between 1 and 5 is passed to the getStars method
-                    (vote_average is a decimal number between 1 and 10) */
-                    "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2))
-                });
-
-                showsInfoEl.append(templateHTML);
-            }
-        },
-        "error": function (iqXHR, textStatus, errorThrown) {
-            alert(
-                "iqXHR.status: " + iqXHR.status + "\n" +
-                "textStatus: " + textStatus + "\n" +
-                "errorThrown: " + errorThrown
-            );
-        }
-    });
+        });
+    }
 }
 
 // var file = new File();
@@ -227,4 +179,34 @@ function getStars(numOfStars) {
     }
 
     return starTemplatesHTML;
+}
+
+function getData(query, movieOrTv) {
+
+    // properties common to both query strings
+    var dataObj = {
+        "api_key": "2712588bad2a9f3c1777737cb66448d5",
+        "query": query,
+    }
+
+    // properties specific to the query string for a movie 
+    if (movieOrTv === "movie") {
+        dataObj.include_adult = false;
+    }
+
+    return dataObj;
+}
+
+/**
+ * Empties the field used to search movies and shows and removes the previously displayed movies
+ * and shows
+ */
+function reset() {
+
+    // the input field is emptied
+    $("main .movie-or-show-input").val("");
+
+    // the previously displayed movies and shows information are removed
+    $("main .movies").empty();
+    $("main .shows").empty();
 }
