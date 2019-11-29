@@ -51,19 +51,22 @@
         color: white;
     }
 
-    main .movies, main .shows {
+    main .movies, 
+    main .shows {
         display: flex;
         flex-wrap: wrap;
     }
 
-    .movieOrShow {
+    main .movies .movie, 
+    main .movies .show {
         position: relative;
         margin: 20px;
         width: 342px;
         height: auto;
     }
     
-    .movieOrShow .info {
+    main .movies .movie .info, 
+    main .movies .show .info {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -71,16 +74,18 @@
         display: none;  
     }
 
-    .movieOrShow:hover > .info {
+    main .movies .movie:hover .info,
+    main .movies .show:hover .info {
         display: block;
     }
 
-    .movieOrShow:hover > .poster {
+    main .movies .movie:hover .poster,
+    main .movies .show:hover {
         opacity: .2;
     }
 
-    .movieOrShow .star {
+    main .movies .movie .star, 
+    main .movies .show .star {
         float: left;
     }
 /* /rules used in specific parts of the page */
-

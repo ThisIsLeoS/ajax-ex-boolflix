@@ -54,30 +54,34 @@ function printInfo(query, movieOrTv) {
                     var templateHTML = infoTemplateCompiled({
 
                         /*
-                        * value names that differs between the movies and the shows returned by the
-                        * server
-                        */
-                        "title": movieOrTv === "movie" ?
-                            data.results[i].title
-                            : data.results[i].name,
-                        "original_title": movieOrTv === "movie" ?
-                            data.results[i].original_title
-                            : data.results[i].original_name,
+                         * Properties whose value is returned by the server
+                         */
+
+                        // value names that differs between the movies and the shows
+                            "title": movieOrTv === "movie" ?
+                                data.results[i].title
+                                : data.results[i].name,
+                            "original_title": movieOrTv === "movie" ?
+                                data.results[i].original_title
+                                : data.results[i].original_name,
+
+                        // value names common to both the movies and the shows
+                            "original_language": getFlag(data.results[i].original_language),
+
+                            // needed check because data-results[i].poster_path could be null
+                            "poster_path": data.results[i].poster_path ?
+                                "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
+                                : "img/no-poster-available.jpg",
+
+                            /* vote_average is a decimal number between 1 and 10 thus
+                            Math.ceil(data.results[i].vote_average / 2) is an integer number
+                            between 1 and 5 */
+                            "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2)),
 
                         /*
-                        * value names common to both the movies and the shows returned by the server
-                        */
-                        "original_language": getFlag(data.results[i].original_language),
-
-                        // needed check because data-results[i].poster_path could be null
-                        "poster_path": data.results[i].poster_path ?
-                            "https://image.tmdb.org/t/p/w342" + data.results[i].poster_path
-                            : "img/no-poster-available.jpg",
-
-                        /* vote_average is a decimal number between 1 and 10 thus
-                        Math.ceil(data.results[i].vote_average / 2) is an integer number between 1
-                        and 5 */
-                        "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2))
+                         * Properties whose value is not returned by the server
+                         */
+                            "movie-or-show": movieOrTv === "movie" ? "movie" : "show"
                     });
 
                     // the movie-or-show-info element is appended
