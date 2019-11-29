@@ -8,36 +8,20 @@ var starTemplateCompiled = Handlebars.compile($("body > #star-vote").html());
  */
 
 // field to search movies and shows
-$("main .movie-or-show-input").keyup(function(key) {
+$("header .movie-or-show-input").keyup(function(key) {
 
     // if "Enter" has been pressed
     if (key.key === "Enter") {
         var query = $(this).val();
-        printMoviesAndShows(query);
+        reset();
+        printInfo(query, "movie");
+        printInfo(query, "tv");
     }
-});
-
-// search button to the right of the field to search movies and shows
-$("main button").click(function() {
-    var query = $("main .movie-or-show-input").val();
-    printMoviesAndShows(query);
 });
 
 /*
  * Functions
  */
-
-/**
- * Empties the field used to search movies and shows and removes the previously displayed movies
- * and shows.
- * Prints all the info of the movies and the shows that have the query in the title
- * @param {String} query - The searched movie or show
- */
-function printMoviesAndShows(query) {
-    reset();
-    printInfo(query, "movie");
-    printInfo(query, "tv");
-}
 
 /**
  * If the parameter movieOrTv contains "movie", prints the info of the movies that have the query
@@ -199,7 +183,7 @@ function getStars(numOfStars) {
 function reset() {
 
     // the input field is emptied
-    $("main .movie-or-show-input").val("");
+    $("header .movie-or-show-input").val("");
 
     // the previously displayed movies and shows information are removed
     $("main .movies").empty();

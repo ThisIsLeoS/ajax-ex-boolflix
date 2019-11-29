@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Boolfix</title>
 
-  <!-- Bootstrap CSS -->
+  <!-- bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
   <!-- fontawesome CSS -->
@@ -16,45 +16,32 @@
 </head>
 <body>
 
-  <!-- navbar -->
-  <nav>
-
-  </nav>
-  <!-- /navbar -->
-
   <!-- header -->
   <header>
-
+    <img src="img\boolflix-logo.png" alt="The Boolfix logo: &quot;Boolfix&quot; written with red uppercase letters">
+    <input type="text" class="movie-or-show-input" placeholder="Search">
   </header>
   <!-- /header -->
 
   <!-- main -->
   <main>
-    <input type="text" class="movie-or-show-input">
-    <button>search</button>
+    <h2>MOVIES</h2>
     <ul class="movies">
     </ul>
+    <h2>SHOWS</h2>
     <ul class="shows">
     </ul>
   </main>
   <!-- /main -->
 
-  <!-- footer -->
-  <footer>
-
-  </footer>
-  <!-- /footer -->
-
   <!-- templates -->
   <template id="info">
-    <li>
-      <ul>
+    <li class="movieOrShow">
+      <img class="poster" src="{{poster_path}}" alt="&quot;{{name}}&quot; poster">
+      <ul class="info">
         <li class="title">Title: {{title}}</li>
         <li class="original-title">Original title: {{original_title}}</li>
         <li class="original-lang">Original language: {{{original_language}}}</li>
-        <li class="poster">
-          <img src="{{poster_path}}" alt="&quot;{{name}}&quot; poster">
-        </li>
         <li class="vote-average">
           Average vote:
           <ul class="stars">
@@ -70,7 +57,7 @@
   </template>
 
   <template id="star-vote">
-    <li>
+    <li class="star">
       <?xml version="1.0" encoding="utf-8"?>
       <!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
       <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
@@ -88,7 +75,7 @@
           </g>
           <g>
             <g>
-              <path fill="#2D2D2D" d="M49.6,64c-0.6,0-1.3-0.2-1.8-0.6l-15.1-9.9c-0.4-0.3-1-0.3-1.4,0l-15.1,9.9c-1.4,0.9-3.4,0.6-4.4-0.7
+              <path fill="#F8D64E" d="M49.6,64c-0.6,0-1.3-0.2-1.8-0.6l-15.1-9.9c-0.4-0.3-1-0.3-1.4,0l-15.1,9.9c-1.4,0.9-3.4,0.6-4.4-0.7
       				c-0.6-0.8-0.9-1.8-0.6-2.8l4.3-18.6c0.1-0.5-0.1-1-0.4-1.3L1.1,27.6c-1-0.9-1.4-2.3-0.9-3.6c0.4-1.3,1.5-2.2,2.9-2.3l18-1.4
       				c0.5,0,0.9-0.4,1.1-0.9l6.7-17.4C29.4,0.8,30.6,0,32,0s2.6,0.8,3.1,2.1l6.7,17.4c0.2,0.5,0.6,0.8,1.1,0.9l18,1.4
       				c1.4,0.1,2.5,1,2.9,2.3c0.4,1.3,0.1,2.7-0.9,3.6L48.9,40c-0.4,0.3-0.5,0.8-0.4,1.3l4.3,18.6c0.2,1,0,2-0.6,2.8
@@ -104,23 +91,14 @@
     </li>
   </template>
   <!-- /templates -->
-
-  <!-- bootstrap JS -->
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <!-- /bootstrap JS -->
+  
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
   <!-- handlebars -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.min.js"></script>
 
-  <!-- moment.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-
   <!-- personal JS -->
   <script src="js/main.js"></script>
-
 </body>
 </html>
