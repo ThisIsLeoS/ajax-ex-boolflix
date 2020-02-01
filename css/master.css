@@ -28,16 +28,14 @@
         /* to make a reference for the percentage heights of thix box's children */
         height: 100%;
 
-        font-size: 14px;
+        font-size: 16px;
     }
     
     body {
         display: flex;
         flex-direction: column;
-
-        /* to make a reference for the percentage heights of thix box's children */
         height: 100%;
-
+        min-width: 350px;
         font-family: sans-serif;
     }
 
@@ -78,46 +76,105 @@
     }
 
     main {
+        display: flex;
+        flex-direction: column;
         flex-grow: 1;
+        padding: 10px 0;
         background-color: rgb(24, 24, 24);
         color: white;
+        align-items: center;
+    }
+
+    main .movies-section h1,
+    main .shows-section h1 {
+        display: none;
+        font-size: 40px;
+        text-align: center;
     }
 
     main .movies, 
     main .shows {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     main .movies .movie, 
     main .shows .show {
         position: relative;
-        margin: 20px;
+        display: flex;
         width: 342px;
-        height: auto;
+        height: 470px;
+        margin: 20px;
+        justify-content: center;
+        align-items: center;
     }
     
-    main .movies .movie .info, 
-    main .shows .show .info {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        display: none;  
+    main .movie .info, 
+    main .show .info {
+        display: none;
+        height: 100%;
+        padding: 10px;
+        overflow-y: auto;
+        z-index: 1;
     }
 
-    main .movies .movie:hover .info,
-    main .shows .show:hover .info {
+    /* workaround to fix a bug in Firefox (Firefox doensn't show the bottom padding of the .info
+    element. Other browsers show the bottom padding as expected) */
+    @-moz-document url-prefix() {
+        main .movie .info::after,
+        main .show .info::after {
+            content: "";
+            display: inline-block;
+        }
+    }   
+    
+    main .movie:hover .info,
+    main .show:hover .info {
         display: block;
     }
 
-    main .movies .movie:hover .poster,
-    main .shows .show:hover .poster {
+    main .movie .info li,
+    main .show .info li {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    main .movie .info h2,
+    main .show .info h2 {
+        margin: 5px 0;
+        font-size: 20px;
+    }
+
+    main .movie .poster,
+    main .show .poster {
+        position: absolute;
+
+        /* to give the posters the same dimensions of their parent */
+        width: 100%;
+        max-height:100%;
+    }
+        
+    main .movie:hover .poster,
+    main .show:hover .poster {
         opacity: .2;
     }
 
-    main .movies .movie .star, 
-    main .shows .show .star {
-        float: left;
+    main .movie .lang-flag,
+    main .show .lang-flag {
+        width: 32px;
+        height: auto;
+    }
+
+    main .movie .stars, 
+    main .show .stars {
+        display: flex;
+    }
+
+    main .movie .star, 
+    main .show .star {
+        padding-left: 3px;
     }
 /* /rules used in specific parts of the page */

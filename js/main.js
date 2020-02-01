@@ -41,13 +41,21 @@ function printInfo(query, movieOrTv) {
             "data": getData(query, movieOrTv),
             "success": function(data) {
                 var elToAppendTo = (movieOrTv === "movie") ?
-                    $("main .movies")
-                    : $("main .shows");
+                    $("main .movies-section .movies")
+                    : $("main .shows-section .shows");
+
+                /* if the data.results array isn't empty (that is, there are movies or shows
+                corresponding to the passed query) */
+                if (data.results.length > 0) {
+
+                    // the "movies" title or the "shows" title is made visible
+                    if (movieOrTv === "movie") $("main .movies-section .movies-title").show();
+                    else $("main .shows-section .shows-title").show();
+                }
 
                 /* for each movie (or show) in the data.results array a movie-or-show-info element
                 is created and appended.
-                Note: if the data.results array is empty (that is, there are no movies or shows
-                corresponding to the passed query), this loop won't loop */
+                Note: if the data.results array is empty this loop won't loop */
                 for (var i = 0; i < data.results.length; ++i) {
 
                     // the movie or show info element is created
@@ -77,6 +85,7 @@ function printInfo(query, movieOrTv) {
                             Math.ceil(data.results[i].vote_average / 2) is an integer number
                             between 1 and 5 */
                             "vote_average": getStars(Math.ceil(data.results[i].vote_average / 2)),
+                            "overview": data.results[i].overview,
 
                         /*
                          * Properties whose value is not returned by the server
@@ -110,7 +119,7 @@ function printInfo(query, movieOrTv) {
  *     exist, the same string passed as input
  */
 function getFlag(lang) {
-    if (lang === "cn" || lang === "en" || lang === "fr" || lang === "it" || lang === "ja") {
+    if (lang === "it" || lang === "en") {
         var templateHTML = flagTemplateCompiled({
             "lang": lang
         });
@@ -181,15 +190,20 @@ function getStars(numOfStars) {
 }
 
 /**
- * Empties the field used to search movies and shows and removes the previously displayed movies
- * and shows
+ * Empties the field used to search movies and shows.
+ * Hides the title of the movies section and the title of the shows section.
+ * Removes the previously displayed movies and shows
  */
 function reset() {
 
     // the input field is emptied
     $("header .movie-or-show-input").val("");
 
+    // the movie section's title and the the show section's title are hidden
+    $("main .movies-section .movies-title").hide();
+    $("main .shows-section .shows-title").hide();
+
     // the previously displayed movies and shows information are removed
-    $("main .movies").empty();
-    $("main .shows").empty();
+    $("main .movies-section .movies").empty();
+    $("main .shows-section .shows").empty();
 }

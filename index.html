@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Boolfix</title>
+  <title>Boolean | Boolfix</title>
 
   <!-- reboot CSS (from Bootstrap) -->
   <link rel="stylesheet" href="lib/css/bootstrap-reboot.min.css">
-  
+
   <!-- fontawesome CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
@@ -21,10 +21,9 @@
 
     <!-- logo -->
     <h1>
-      <img class="boolflix-logo" src="img/boolflix-logo.png"
-        alt="The Boolfix logo: &quot;Boolfix&quot; written with red uppercase letters">
+      <img class="boolflix-logo" src="img/boolflix-logo.png" alt="The Boolfix logo: &quot;Boolfix&quot; written with red uppercase letters">
     </h1>
-
+    
     <!-- search bar -->
     <div class="search-bar">
       <i class="fas fa-search magnifying-glass-icon"></i>
@@ -38,45 +37,68 @@
 
   <!-- main -->
   <main>
-    <h2>MOVIES</h2>
-    <ul class="movies">
-    </ul>
-    <h2>SHOWS</h2>
-    <ul class="shows">
-    </ul>
+
+    <!-- movies section -->
+    <section class="movies-section">
+      <h1 class="movies-title">MOVIES</h1>
+      <ul class="movies">
+      </ul>
+    </section>
+    <!-- /movies section -->
+
+    <!-- shows section -->
+    <section class="shows-section">
+      <h1 class="shows-title">SHOWS</h1>
+      <ul class="shows">
+      </ul>
+    </section>
+    <!-- /shows section -->
+
   </main>
   <!-- /main -->
 
   <!-- templates -->
   <template id="info">
     <li class="{{movie-or-show}}">
-      <img class="poster" src="{{poster_path}}" alt="&quot;{{name}}&quot; poster">
+      <img class="poster" src="{{poster_path}}" alt="&quot;{{title}}&quot; poster">
       <ul class="info">
-        <li class="title">Title: {{title}}</li>
-        <li class="original-title">Original title: {{original_title}}</li>
-        <li class="original-lang">Original language: {{{original_language}}}</li>
+        <li class="title">
+          <h2>Title</h2>
+          <span>{{title}}</span>
+        </li>
+        <li class="original-title">
+          <h2>Original title</h2>
+          <span>{{original_title}}</span>
+        </li>
+        <li class="original-lang">
+          <h2>Original language</h2>
+          <span>{{{original_language}}}</span>
+        </li>
         <li class="vote-average">
-          Average vote:
+          <h2>Average vote</h2>
           <ul class="stars">
             {{{vote_average}}}
           </ul>
+        </li>
+        <li class="overview">
+          <h2>Overview</h2>
+          <p>
+            {{overview}}
+          </p>
         </li>
       </ul>
     </li>
   </template>
 
   <template id="lang-flag">
-    <img src="img\\{{lang}}-flag-icon.svg" alt="{{lang}}">
+    <img class="lang-flag" src="img\\{{lang}}-flag-icon.png" alt="{{lang}}">
   </template>
 
   <template id="star-vote">
     <li class="star">
-      <?xml version="1.0" encoding="utf-8"?>
-      <!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-      <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64"
-        enable-background="new 0 0 64 64" xml:space="preserve" height="20" width="20">
+        enable-background="new 0 0 64 64" xml:space="preserve" height="17" width="17">
         <g id="XMLID_32_">
           <g>
             <g>
