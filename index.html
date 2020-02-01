@@ -25,7 +25,14 @@
         alt="The Boolfix logo: &quot;Boolfix&quot; written with red uppercase letters">
     </h1>
 
-    <input type="text" class="movie-or-show-input" placeholder="Search">
+    <!-- search bar -->
+    <div class="search-bar">
+      <i class="fas fa-search magnifying-glass-icon"></i>
+      
+      <!-- the autocomplete="off" declaration ensures that, if some text is present in the input
+      field, that text doesn't remain when the page is refreshed -->
+      <input type="text" class="movie-or-show-input" placeholder="Enter a movie or tv show" autocomplete="off">
+    </div>
   </header>
   <!-- /header -->
 

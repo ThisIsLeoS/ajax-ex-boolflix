@@ -1,8 +1,14 @@
 /* reset rules */
-    h2, p, ol, ul {
+    h1, h2, p, ol, ul {
 
         /* to overwrite bootstrap's CSS */
         margin-bottom: 0;
+    }
+
+    input:focus {
+
+        /* to overwrite chrome's CSS */
+        outline: none;
     }
 
     ol, ul {
@@ -37,12 +43,38 @@
 
     header {
         display: flex;
-        flex-shrink: 0;
-        height: 60px;
-        padding: 0 20px;
+        flex-direction: column;
+        padding: 20px 0;
         background-color: black;
-        justify-content: space-between;
         align-items: center;
+    }
+
+    header .search-bar {
+        display: flex;
+        width: 256px;
+        height: 35px;
+        margin-top: 16px;
+        border-radius: 30px;
+        padding: 0 15px;
+        background-color: white;
+        align-items: center;
+    }
+
+    header .search-bar .magnifying-glass-icon {
+        color: rgb(118, 118, 118);
+    }
+
+    header .search-bar .movie-or-show-input {
+        
+        /* to overwrite bootstrap's CSS */
+        width: 100%;
+
+        margin-left: 10px;
+
+        /* to overwrite bootstrap's CSS */
+        border: none;
+
+        font-size: 18px;
     }
 
     main {
